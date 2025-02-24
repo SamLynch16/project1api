@@ -1,0 +1,117 @@
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const bodyParser = require('body-parser');
+const jsonResponses = require('./jsonResponses');
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Parse JSON bodies from POST requests
+app.use(bodyParser.json());
+
+// Serve static files from the 'client' folder (using client.html as the default)
+app.use(express.static(path.join(__dirname, '../client'), { index: 'client.html' }));
+
+// Load your Pokémon data from the JSON file
+// Make sure each Pokémon in pokedex.json has properties: id, name, type (an array)
+const pokedexData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../data/pokedex.json'), 'utf8')
+);
+
+/*-------------------------------------------------------------
+  GET All Pokémon
+  GET /api/getAllPokemon
+-------------------------------------------------------------*/
+app.get('/api/getAllPokemon', (req, res) => {
+  jsonResponses.success(req, res, { pokedex: pokedexData });
+});
+app.head('/api/getAllPokemon', (req, res) => {
+  jsonResponses.successMeta(req, res);
+});
+
+/*-------------------------------------------------------------
+  GET Pokémon by Name
+  GET /api/getPokemon?name=Pikachu
+-------------------------------------------------------------*/
+app.get('/api/getPokemon', (req, res) => {
+  const { name } = req.query;
+  if (!name) {
+    return jsonResponses.badRequest(req, res, 'Missing ?name= query parameter');
+  }
+  const pokemon = pokedexData.find(
+    (p) => p.name.toLowerCase() === name.toLowerCase()
+  );
+  if (!pokemon) {
+    return jsonResponses.notFound(req, res, `Pokémon with name "${name}" not found.`);
+  }
+  return jsonResponses.success(req, res, pokemon);
+});
+app.head('/api/getPokemon', (req, res) => {
+  jsonResponses.successMeta(req, res);
+});
+
+/*-------------------------------------------------------------
+  GET Pokémon by ID
+  GET /api/getPokemonById/:id
+-------------------------------------------------------------*/
+app.get('/api/getPokemonById/:id', (req, res) => {
+  const { id } = req.params;
+  const pokemon = pokedexData.find((p) => p.id === Number(id));
+  if (!pokemon) {
+    return jsonResponses.notFound(req, res, `Pokémon with id "${id}" not found.`);
+  }
+  return jsonResponses.success(req, res, pokemon);
+});
+app.head('/api/getPokemonById/:id', (req, res) => {
+  jsonResponses.successMeta(req, res);
+});
+
+/*-------------------------------------------------------------
+  GET Pokémon by Type
+  GET /api/getPokemonByType/:type
+-------------------------------------------------------------*/
+app.get('/api/getPokemonByType/:type', (req, res) => {
+  const { type } = req.params;
+  // Filter Pokémon whose type array (converted to lower case) includes the given type
+  const filteredPokemon = pokedexData.filter((p) =>
+    p.type.map(t => t.toLowerCase()).includes(type.toLowerCase())
+  );
+  if (filteredPokemon.length === 0) {
+    return jsonResponses.notFound(req, res, `No Pokémon with type "${type}" found.`);
+  }
+  return jsonResponses.success(req, res, { pokedex: filteredPokemon });
+});
+app.head('/api/getPokemonByType/:type', (req, res) => {
+  jsonResponses.successMeta(req, res);
+});
+
+/*-------------------------------------------------------------
+  POST: Add a new Pokémon
+  POST /api/addPokemon
+  Expected JSON body: { "id": 25, "name": "Pikachu", "type": ["Electric"] }
+-------------------------------------------------------------*/
+app.post('/api/addPokemon', (req, res) => {
+  const { id, name, type } = req.body;
+  if (!id || !name || !type) {
+    return jsonResponses.badRequest(req, res, 'Missing "id", "name", or "type" in request body');
+  }
+  
+  const newPokemon = {
+    id,
+    name,
+    type: Array.isArray(type) ? type : [type],
+  };
+  
+  pokedexData.push(newPokemon);
+  
+  return jsonResponses.success(req, res, {
+    message: 'Pokémon added successfully!',
+    added: newPokemon,
+  });
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
