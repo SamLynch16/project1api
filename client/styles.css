@@ -1,51 +1,72 @@
+/* Basic styles for the page */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  h1 {
-    margin-bottom: 10px;
-  }
-  .endpoint {
-    margin-bottom: 5px;
-  }
-  .endpoint a {
-    text-decoration: none;
-    color: #0066cc;
-  }
-  .endpoint span {
-    margin-left: 10px;
-    color: #555;
-  }
-  hr {
-    margin: 20px 0;
-  }
-  .test-form {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    max-width: 400px;
-  }
-  .test-form h2 {
-    margin-top: 0;
-  }
-  .form-row {
-    margin-bottom: 10px;
-  }
-  .form-row label {
-    display: inline-block;
-    width: 80px;
-    font-weight: bold;
-  }
-  .methods {
-    margin-bottom: 10px;
-  }
-  .methods label {
-    margin-right: 10px;
-  }
-  .result {
-    margin-top: 20px;
-    white-space: pre-wrap;
-    background: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.endpoint-box {
+  margin-bottom: 20px;
+}
+
+.endpoint-toggle {
+  background-color: #f4f4f4;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.endpoint-content {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  display: none;
+}
+
+.endpoint-content form {
+  margin-bottom: 20px;
+}
+
+.response {
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Radio button styles */
+.request-type {
+  margin: 10px 0;
+}
+
+.request-type input[type="radio"] {
+  margin-right: 5px;
+}
+
+/* Send button styles */
+#sendRequestBtn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#sendRequestBtn:hover {
+  background-color: #0056b3;
+}
+

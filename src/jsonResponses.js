@@ -1,7 +1,3 @@
-/**
- * Helper functions for sending JSON responses (and HEAD responses).
- */
-
 const respondJSON = (req, res, status, object) => {
     res.status(status).json(object);
   };

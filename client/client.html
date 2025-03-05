@@ -1,91 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokédex Finder</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Endpoint Tester</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h1>Test Pokémon API</h1>
-    
-    <!-- List of Endpoints -->
-    <div class="endpoint">
-      <strong>/api/getAllPokemon</strong>
-      <span>[ <a href="/api/getAllPokemon" target="_blank">GET</a> | <a href="/api/getAllPokemon" target="_blank">HEAD</a> ]</span>
+  <div class="container">
+    <h1>API Endpoint Tester</h1>
+
+    <!-- GET and HEAD for /api/getAllPokemon -->
+    <div class="endpoint-box">
+      <button class="endpoint-toggle">GET/HEAD /api/getAllPokemon</button>
+      <div class="endpoint-content">
+        <form id="getAllPokemonForm">
+          <div class="request-type">
+            <input type="radio" id="getRequest" name="requestTypeForGetAllPokemon" value="GET" checked>
+            <label for="getRequest">GET</label>
+            <input type="radio" id="headRequest" name="requestTypeForGetAllPokemon" value="HEAD">
+            <label for="headRequest">HEAD</label>
+          </div>
+
+          <button type="submit" id="sendRequestBtn">Send Request</button>
+        </form>
+
+        <div class="response" id="responseGetAllPokemon"></div>
+      </div>
     </div>
-    <div class="endpoint">
-      <strong>/api/getPokemon?name=:name</strong>
-      <span>[ <a href="/api/getPokemon?name=Pikachu" target="_blank">GET</a> | <a href="/api/getPokemon?name=Pikachu" target="_blank">HEAD</a> ]</span>
+
+    <!-- GET and HEAD for /api/getPokemonByName -->
+    <div class="endpoint-box">
+      <button class="endpoint-toggle">GET/HEAD /api/getPokemonByName</button>
+      <div class="endpoint-content">
+        <form id="getPokemonByNameForm">
+          <label for="pokeNameByName">Pokemon Name: </label>
+          <input type="text" id="pokeNameByName" name="pokeName" placeholder="Enter Pokemon Name">
+          <div class="request-type">
+            <input type="radio" id="getByNameRequest" name="requestTypeForGetPokemonByName" value="GET" checked>
+            <label for="getByNameRequest">GET</label>
+            <input type="radio" id="headByNameRequest" name="requestTypeForGetPokemonByName" value="HEAD">
+            <label for="headByNameRequest">HEAD</label>
+          </div>
+
+          <button type="submit">Send Request</button>
+        </form>
+
+        <div class="response" id="responseGetPokemonByName"></div>
+      </div>
     </div>
-    <div class="endpoint">
-      <strong>/api/getPokemonById/:id</strong>
-      <span>[ <a href="/api/getPokemonById/1" target="_blank">GET</a> | <a href="/api/getPokemonById/1" target="_blank">HEAD</a> ]</span>
+
+    <!-- GET and HEAD for /api/getPokemonById -->
+    <div class="endpoint-box">
+      <button class="endpoint-toggle">GET/HEAD /api/getPokemonById</button>
+      <div class="endpoint-content">
+        <form id="getPokemonByIdForm">
+          <label for="pokeId">Pokemon ID: </label>
+          <input type="text" id="pokeId" name="pokeId" placeholder="Enter Pokemon ID">
+          <div class="request-type">
+            <input type="radio" id="getByIdRequest" name="requestTypeForGetPokemonById" value="GET" checked>
+            <label for="getByIdRequest">GET</label>
+            <input type="radio" id="headByIdRequest" name="requestTypeForGetPokemonById" value="HEAD">
+            <label for="headByIdRequest">HEAD</label>
+          </div>
+
+          <button type="submit">Send Request</button>
+        </form>
+
+        <div class="response" id="responseGetPokemonById"></div>
+      </div>
     </div>
-    <div class="endpoint">
-      <strong>/api/getPokemonByType/:type</strong>
-      <span>[ <a href="/api/getPokemonByType/fire" target="_blank">GET</a> | <a href="/api/getPokemonByType/fire" target="_blank">HEAD</a> ]</span>
-    </div>
-    <div class="endpoint">
-      <strong>/api/addPokemon</strong>
-      <span>[ POST ]</span>
-    </div>
-    <div class="endpoint">
-      <strong>/api/addMoves</strong>
-      <span>[ POST ]</span>
-    </div>
-    
-    <hr />
-  
-    <!-- Test This Endpoint Form -->
-    <div class="test-form">
-      <h2>Test This Endpoint</h2>
-      <form id="testEndpointForm">
-        <div class="form-row">
-          <label for="pokeId">ID:</label>
-          <input type="text" id="pokeId" name="pokeId" placeholder="e.g., 1">
-        </div>
-        <div class="form-row">
-          <label for="pokeName">Name:</label>
-          <input type="text" id="pokeName" name="pokeName" placeholder="e.g., Pikachu">
-        </div>
-        <div class="form-row">
-          <label for="pokeType">Type:</label>
-          <input type="text" id="pokeType" name="pokeType" placeholder="e.g., Electric">
-        </div>
-        <!-- New input field for moves -->
-        <div class="form-row">
-          <label for="pokeMoves">Moves:</label>
-          <input type="text" id="pokeMoves" name="pokeMoves" placeholder="e.g., Thunder Shock, Quick Attack">
-        </div>
-        
-        <!-- Choose HTTP Method -->
-        <div class="methods">
-          <label><input type="radio" name="method" value="GET" checked> GET</label>
-          <label><input type="radio" name="method" value="HEAD"> HEAD</label>
-          <label><input type="radio" name="method" value="POST"> POST</label>
-        </div>
-  
-        <!-- Endpoint to Test -->
-        <div class="form-row">
-          <label for="endpoint">Endpoint:</label>
-          <select id="endpoint" name="endpoint">
-            <option value="/api/getAllPokemon">/api/getAllPokemon</option>
-            <option value="/api/getPokemon?name=:name">/api/getPokemon?name=:name</option>
-            <option value="/api/getPokemonById/:id">/api/getPokemonById/:id</option>
-            <option value="/api/getPokemonByType/:type">/api/getPokemonByType/:type</option>
-            <option value="/api/addPokemon">/api/addPokemon</option>
-            <option value="/api/addMoves">/api/addMoves</option>
-          </select>
-        </div>
-        
-        <button type="submit">Send Request</button>
-      </form>
-    </div>
-  
-    <!-- Display the response -->
-    <div id="response" class="result"></div>
-  
-    <script src="script.js"></script>
-  </body>
-  </html>
+
+<!-- GET and HEAD for /api/getPokemonByType -->
+<div class="endpoint-box">
+  <button class="endpoint-toggle">GET/HEAD /api/getPokemonByType</button>
+  <div class="endpoint-content">
+    <form id="getPokemonByTypeForm">
+      <label for="pokeType">Pokemon Type: </label>
+      <input type="text" id="pokeType" name="pokeType" placeholder="Enter Pokemon Type">
+      <div class="request-type">
+        <input type="radio" id="getByTypeRequest" name="requestTypeForGetPokemonByType" value="GET" checked>
+        <label for="getByTypeRequest">GET</label>
+        <input type="radio" id="headByTypeRequest" name="requestTypeForGetPokemonByType" value="HEAD">
+        <label for="headByTypeRequest">HEAD</label>
+      </div>
+
+      <button type="submit">Send Request</button>
+    </form>
+
+    <div class="response" id="responseGetPokemonByType"></div>
+  </div>
+</div>
+
+
+
+  <!-- POST for /api/addPokemon -->
+<div class="endpoint-box">
+  <button class="endpoint-toggle">POST /api/addPokemon</button>
+  <div class="endpoint-content">
+    <form id="addPokemonForm">
+      <label for="newPokeId">Pokemon ID: </label>
+      <input type="text" id="newPokeId" name="newPokeId" placeholder="Enter Pokemon ID">
+
+      <label for="newPokeName">Pokemon Name: </label>
+      <input type="text" id="newPokeName" name="newPokeName" placeholder="Enter Pokemon Name">
+
+      <label for="newPokeType">Pokemon Type(s): </label>
+      <input type="text" id="newPokeType" name="newPokeType" placeholder="Enter Pokemon Type(s), comma-separated">
+
+      <button type="submit">Add Pokémon</button>
+    </form>
+
+    <div class="response" id="responseAddPokemon"></div>
+  </div>
+</div>
+
+
+<!-- POST for /api/addMoves -->
+<div class="endpoint-box">
+  <button class="endpoint-toggle">POST /api/addMoves</button>
+  <div class="endpoint-content">
+    <form id="addMovesForm">
+      <label for="movePokeId">Pokemon ID: </label>
+      <input type="text" id="movePokeId" name="movePokeId" placeholder="Enter Pokemon ID">
+
+      <label for="movePokeName">Pokemon Name: </label>
+      <input type="text" id="movePokeName" name="movePokeName" placeholder="Enter Pokemon Name">
+
+      <label for="pokeMoves">New Moves: </label>
+      <input type="text" id="pokeMoves" name="pokeMoves" placeholder="Enter moves, comma-separated">
+
+      <button type="submit">Add Moves</button>
+    </form>
+
+    <div class="response" id="responseAddMoves"></div>
+  </div>
+</div>
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>

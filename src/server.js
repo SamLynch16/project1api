@@ -7,14 +7,12 @@ const jsonResponses = require('./jsonResponses');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Parse JSON bodies from POST requests
+
 app.use(bodyParser.json());
 
-// Serve static files from the 'client' folder (using client.html as the default)
 app.use(express.static(path.join(__dirname, '../client'), { index: 'client.html' }));
 
-// Load your Pokémon data from the JSON file
-// Make sure each Pokémon in pokedex.json has properties: id, name, type (an array)
+
 const pokedexData = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../data/pokedex.json'), 'utf8')
 );
@@ -73,7 +71,6 @@ app.head('/api/getPokemonById/:id', (req, res) => {
 -------------------------------------------------------------*/
 app.get('/api/getPokemonByType/:type', (req, res) => {
   const { type } = req.params;
-  // Filter Pokémon whose type array (converted to lower case) includes the given type
   const filteredPokemon = pokedexData.filter((p) =>
     p.type.map(t => t.toLowerCase()).includes(type.toLowerCase())
   );
@@ -89,7 +86,6 @@ app.head('/api/getPokemonByType/:type', (req, res) => {
 /*-------------------------------------------------------------
   POST: Add a new Pokémon
   POST /api/addPokemon
-  Expected JSON body: { "id": 25, "name": "Pikachu", "type": ["Electric"] }
 -------------------------------------------------------------*/
 app.post('/api/addPokemon', (req, res) => {
   const { id, name, type } = req.body;
@@ -111,7 +107,49 @@ app.post('/api/addPokemon', (req, res) => {
   });
 });
 
-// Start the server
+/*-------------------------------------------------------------
+  POST: Add Moves to a Pokémon
+  POST /api/addMoves
+-------------------------------------------------------------*/
+app.post('/api/addMoves', (req, res) => {
+  const { id, name, moves } = req.body;
+  if (!id || !name || !moves) {
+    return jsonResponses.badRequest(req, res, 'Missing "id", "name", or "moves" in request body');
+  }
+  
+  let pokemon = pokedexData.find(
+    (p) => p.id === Number(id) || p.name.toLowerCase() === name.toLowerCase()
+  );
+  
+  if (pokemon) {
+    if (!pokemon.moves) {
+      pokemon.moves = [];
+    }
+    moves.forEach((move) => {
+      if (!pokemon.moves.includes(move)) {
+        pokemon.moves.push(move);
+      }
+    });
+    return jsonResponses.success(req, res, {
+      message: 'Moves added to existing Pokémon.',
+      updated: pokemon
+    });
+  } else {
+    pokemon = {
+      id,
+      name,
+      type: [],
+      moves: Array.isArray(moves) ? moves : [moves]
+    };
+    pokedexData.push(pokemon);
+    return jsonResponses.success(req, res, {
+      message: 'New Pokémon created with moves.',
+      added: pokemon
+    });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
