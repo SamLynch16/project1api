@@ -11,7 +11,8 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '../client'), { index: 'client.html' }));
-aapp.use('/docs', express.static(path.join(__dirname, '../documentation'), { index: 'documentation.html' }));
+app.use('/documentation', express.static(path.join(__dirname, '../documentation')));
+
 
 
 
