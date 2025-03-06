@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Documentation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="../client/client.html"> Homepage </a>
+
+  <header>
+    <h1>API Documentation</h1>
+  </header>
+  
+  <section class="endpoint">
+    <h2>1. Get All Pokémon</h2>
+    <p>URL:<code>/api/getAllPokemon</code></p>
+    <p>Methods:GET/HEAD</p>
+    <p>Description: Retrieves a list of all Pokémon in the Pokédex.</p>
+    <p>Request Example: <code>GET /api/getAllPokemon</code></p>
+    <h3>Response Example:</h3>
+    <pre><code>{
+  "success": true,
+  "data": {
+    "pokedex": [ /* Array of all Pokémon data */ ]
+  }
+}</code></pre>
+  </section>
+
+  <section class="endpoint">
+    <h2>2. Get Pokémon by Name</h2>
+    <p>URL: <code>/api/getPokemonByName</code></p>
+    <p>Methods: GET/HEAD</p>
+    <p>Description:Retrieves a specific Pokémon by its name.</p>
+    <p>Query Parameters:</p>
+    <ul>
+      <li><code>name</code> (required): The name of the Pokémon (e.g., <code>Pikachu</code>)</li>
+    </ul>
+    <p>Request Example: <code>GET /api/getPokemon?name=Pikachu</code></p>
+    <h3>Response Example (Success):</h3>
+    <pre><code>{
+  "success": true,
+  "data": {
+    "id": 25,
+    "name": "Pikachu",
+    "type": ["Electric"]
+  }
+}</code></pre>
+    <h3>Response Example (Error - Pokémon Not Found):</h3>
+    <pre><code>{
+  "success": false,
+  "error": "Pokémon with name 'Pikachu' not found."
+}</code></pre>
+  </section>
+
+  <section class="endpoint">
+    <h2>3. Get Pokémon by ID</h2>
+    <p>URL:<code>/api/getPokemonById/:id</code></p>
+    <p>Methods:GET/HEAD</p>
+    <p>Description: Retrieves a specific Pokémon by its unique ID.</p>
+    <p>Route Parameters:</p>
+    <ul>
+      <li><code>id</code> (required): The ID of the Pokémon (e.g., <code>25</code>)</li>
+    </ul>
+    <p>Request Example: <code>GET /api/getPokemonById/25</code></p>
+    <h3>Response Example (Success):</h3>
+    <pre><code>{
+  "success": true,
+  "data": {
+    "id": 25,
+    "name": "Pikachu",
+    "type": ["Electric"]
+  }
+}</code></pre>
+    <h3>Response Example (Error - Pokémon Not Found):</h3>
+    <pre><code>{
+  "success": false,
+  "error": "Pokémon with id '25' not found."
+}</code></pre>
+  </section>
+
+  <section class="endpoint">
+    <h2>4. Get Pokémon by Type</h2>
+    <p>URL: <code>/api/getPokemonByType</code></p>
+    <p>Methods: GET/HEAD</p>
+    <p>Description: Retrieves Pokémon filtered by type.</p>
+    <p>Route Parameters:</p>
+    <ul>
+      <li><code>type</code> (required): The type of Pokémon (e.g., <code>Fire</code>)</li>
+    </ul>
+    <p>Request Example:<code>GET /api/getPokemonByType/Fire</code></p>
+    <h3>Response Example (Success):</h3>
+    <pre><code>{
+  "success": true,
+  "data": {
+    "pokedex": [ /* Array of filtered Pokémon data by type */ ]
+  }
+}</code></pre>
+ 
+<section class="endpoint">
+  <h2>5. Add Pokémon</h2>
+  <p>URL: <code>/api/addPokemon</code></p>
+  <p>Method: POST</p>
+  <p>Description: Adds a new Pokémon to the database.</p>
+  <p>Request Body (JSON):</p>
+  <pre><code>{
+"id": 150,
+"name": "Mewtwo",
+"type": ["Psychic"]
+}</code></pre>
+  <h3>Response Example (Success):</h3>
+  <pre><code>{
+"success": true,
+"message": "Pokémon added successfully."
+}</code></pre>
+</section>
+
+<section class="endpoint">
+  <h2>6. Add Move</h2>
+  <p>URL: <code>/api/addMoves</code></p>
+  <p>Method: POST</p>
+  <p>Description: Adds a new move to a Pokémon.</p>
+  <p>Request Body (JSON):</p>
+  <pre><code>{
+"pokemonId": 25,
+"move": "Thunderbolt"
+}</code></pre>
+  <h3>Response Example (Success):</h3>
+  <pre><code>{
+"success": true,
+"message": "Move added successfully."
+}</code></pre>
+</section>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  header p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    margin-top: 20px;
+    color: #2d2d2d;
+  }
+  
+  section.endpoint {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  code {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #f5f5f5;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 20px;
+  }
+  
+  ul li {
+    margin: 5px 0;
+  }
+  
+  pre {
+    background-color:lightgray;
+    color: black;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    overflow-x: auto;
+  }
+  
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    color: lightgray;
+  }
+  
+  footer p {
+    font-size: 1rem;
+  }
+  
